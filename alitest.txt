@@ -36,10 +36,47 @@ using namespace std;
 
 /** 请完成下面这个函数，实现题目要求的功能 **/
  /** 当然，你也可以不按照这个模板来作答，完全按照自己的想法来 ^-^  **/
-int dung(vector < int > eggs) {
 
+int dung(vector<int> eggs, int low, int high)
+{
+	if (high - low == 0)
+		return 0;
+	else if (high - low == 1)
+	{
+		int index = (eggs[low] < eggs[high]) ? low : high;
+		//printf("--> %d ",index+1);
+		return min(eggs[low], eggs[high]);
+	}
 
+	else
+	{
+		int index = low;
+		int minimalCost = eggs[low] + dung(eggs, low + 1, high);
+		if (eggs[low] + dung(eggs, low + 1, high) > eggs[high] + dung(eggs, low, high - 1))
+		{
+			index = high;
+			minimalCost = eggs[high] + dung(eggs, low, high - 1);
+		}
+		//int minimalCost = min(eggs[low]+dung(eggs, low + 1, high), eggs[high]+dung(eggs, low, high - 1));
+		for (int i = 1; i <= high - low - 1; i++)
+		{
+			int cost = eggs[low + i] + max(dung(eggs, low, low + i - 1), dung(eggs, low + i + 1, high));
+			if (cost < minimalCost)
+			{
+				index = low + i;
+				minimalCost = cost;
+			}
+		}
+		//printf("--> %d ",index+1);
+		return minimalCost;
+	}
+}
 
+int dung(vector < int > eggs)
+{
+	int low = 0;
+	int high = eggs.size() - 1;
+	return dung(eggs, low, high);
 }
 
 int main() {
