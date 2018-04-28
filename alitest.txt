@@ -27,6 +27,7 @@
 输出范例: 
 4
 
+```C++
 #include <iostream>
 #include <vector>
 #include <numeric>
@@ -99,3 +100,4 @@ int main() {
     return 0;
 
 }
+```
